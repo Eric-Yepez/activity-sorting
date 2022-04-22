@@ -24,19 +24,16 @@ public class SortingUtility {
 
         for (int index = 0; index < data.length - 1; index++) {
 
-            // Assume first value is min
             min = index;
 
             for (int scan = index + 1; scan < data.length; scan++) {
 
-                // Find minimum value
                 if (data[scan].compareTo(data[min]) < 0) {
                     min = scan;
                 }
 
             }
 
-            // Swap minimum value with the lowest index
             if (min != index) {
                 swap(data, min, index);
             }
@@ -115,5 +112,50 @@ public class SortingUtility {
         T temp = data[index1];
         data[index1] = data[index2];
         data[index2] = temp;
+    }
+
+    public static <T extends Comparable<T>> void quickSort(T[] data) {
+        quickSort(data, 0, data.length - 1);
+    }
+
+    private static <T extends Comparable<T>> void quickSort(T[] data, int min, int max) {
+
+        if (min < max) {
+
+            int indexofpartition = partition(data, min, max);
+
+            quickSort(data, min, indexofpartition - 1);
+
+            quickSort(data, indexofpartition + 1, max);
+        }
+
+    }
+
+    private static <T extends Comparable<T>> int partition(T[] data, int min, int max) {
+
+        T partitionElement;
+        int left, right;
+        int middle = (min + max) / 2;
+
+        partitionElement = data[middle];
+
+        swap(data, middle, min);
+
+        left = min;
+        right = max;
+
+        while (left < right) {
+
+            while (left < right && data[left].compareTo(partitionElement) <= 0) left++;
+
+            while (data[right].compareTo(partitionElement) > 0) right--;
+
+            if (left < right) swap(data, left, right);
+
+        }
+
+        swap(data, min, right);
+
+        return right;
     }
 }
